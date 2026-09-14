@@ -1,0 +1,113 @@
+export const categories = [
+  { name: 'All', count: 33 },
+  { name: 'Sponge holders', count: 4 },
+  { name: 'Chip and dips', count: 4 },
+  { name: 'Berry bowl / colander', count: 4 },
+  { name: 'Soap dishes', count: 7 },
+  { name: 'Mugs', count: 3 },
+  { name: 'Air Plant Hangers', count: 3 },
+  { name: 'Garlic Keepers', count: 3 },
+  { name: 'Plates', count: 1 },
+];
+
+// Prototype seed data based on Glazed Pottery Shop's current Etsy catalog.
+// Replace this array with Shopify Storefront API data after migration.
+export const products = [
+  {
+    id: 'matte-black-chip-dip',
+    title: 'Matte Black Chip & Dip Platter',
+    category: 'Chip and dips',
+    price: 298,
+    stock: 1,
+    description: 'A wheel-thrown serving piece designed as a functional conversation piece for entertaining.',
+    image: '/assets/chip-dip-black.jpeg',
+    secondaryImage: '/assets/chip-dip-white.jpeg',
+  },
+  {
+    id: 'pearl-white-sponge-holder',
+    title: 'Self-Draining Sponge / Brush Holder',
+    category: 'Sponge holders',
+    price: 88,
+    stock: 1,
+    description: 'A wheel-thrown sink-side piece that lifts and tilts the sponge so excess water drains back toward the sink.',
+    image: '/assets/sponge-holder.jpeg',
+    secondaryImage: '/assets/studio-hands.jpeg',
+  },
+  {
+    id: 'pearl-white-chip-dip',
+    title: 'Pearl White Chip & Dip Platter',
+    category: 'Chip and dips',
+    price: 298,
+    stock: 1,
+    description: 'A sculptural serving piece with a built-in dip bowl and soft pearl-white glaze.',
+    image: '/assets/chip-dip-white.jpeg',
+    secondaryImage: '/assets/chip-dip-black.jpeg',
+  },
+  {
+    id: 'northern-lights-berry-bowl',
+    title: 'Northern Lights Berry Bowl / Colander',
+    category: 'Berry bowl / colander',
+    price: 98,
+    stock: 1,
+    description: 'A functional bowl for rinsing, draining and serving produce, finished in Mandy’s Northern Lights glaze.',
+    image: '/assets/sponge-holder.jpeg',
+    secondaryImage: '/assets/chip-dip-white.jpeg',
+  },
+  {
+    id: 'northern-lights-mug',
+    title: 'Mug — Northern Lights',
+    category: 'Mugs',
+    price: 74,
+    stock: 1,
+    description: 'Wheel-thrown drinkware with layered glaze movement and a one-of-a-kind handmade finish.',
+    image: '/assets/studio-hands.jpeg',
+    secondaryImage: '/assets/chip-dip-black.jpeg',
+  },
+  {
+    id: 'ocean-vibe-mug',
+    title: 'Mug — Ocean Vibe',
+    category: 'Mugs',
+    price: 74,
+    stock: 2,
+    description: 'Handmade everyday drinkware in a glaze palette inspired by water and landscape.',
+    image: '/assets/chip-dip-white.jpeg',
+    secondaryImage: '/assets/studio-hands.jpeg',
+  },
+  {
+    id: 'white-crackle-raku-hanger',
+    title: 'White Crackle Raku Air Plant Hanger',
+    category: 'Air Plant Hangers',
+    price: 78,
+    stock: 1,
+    description: 'A one-of-a-kind Raku-fired piece shaped by crackle, smoke, carbon and the unpredictability of the firing.',
+    image: '/assets/studio-hands.jpeg',
+    secondaryImage: '/assets/sponge-holder.jpeg',
+    raku: true,
+  },
+  {
+    id: 'rainbow-raku-hanger',
+    title: 'Rainbow Raku Air Plant Hanger',
+    category: 'Air Plant Hangers',
+    price: 98,
+    stock: 1,
+    description: 'A Raku-fired air plant form with metallic surface variation created through heat, smoke and reduction.',
+    image: '/assets/chip-dip-black.jpeg',
+    secondaryImage: '/assets/studio-hands.jpeg',
+    raku: true,
+  },
+];
+
+export const reviews = [
+  {
+    quote: 'Beautiful, unique piece that will last for years.',
+    product: 'Berry Bowl / Colander',
+  },
+  {
+    quote: 'Beautiful piece and incredibly useful too!',
+    product: 'Self-Draining Sponge Holder',
+  },
+  {
+    quote: 'Keeps the sink area tidy, clean and uncluttered. It really works.',
+    product: 'Self-Draining Sponge Holder',
+  },
+];
