@@ -10,15 +10,15 @@ function InstagramIcon({ size = 15 }) {
   );
 }
 
-export default function Footer({ onClayTap }) {
+export default function Footer({ onToast }) {
   return (
     <footer className="site-footer">
-      <div className="footer-newsletter">
+      <div className="footer-newsletter" id="friends">
         <div>
-          <p className="eyebrow">STAY CLOSE TO THE STUDIO</p>
-          <h3>Shop drops, class dates + studio notes.</h3>
+          <p className="eyebrow">LET’S BE FRIENDS</p>
+          <h3>Shop updates, classes + market announcements.</h3>
         </div>
-        <form onSubmit={(event) => event.preventDefault()}>
+        <form onSubmit={(event) => { event.preventDefault(); onToast('Email signup is ready to connect to Mandy’s newsletter platform.'); }}>
           <input type="email" placeholder="EMAIL ADDRESS" aria-label="Email address" required />
           <button type="submit">JOIN <ArrowUpRight size={16} /></button>
         </form>
@@ -27,14 +27,14 @@ export default function Footer({ onClayTap }) {
       <div className="footer-main">
         <div className="footer-brand-block">
           <img src="/assets/logo-horizontal-transparent.png" alt="Glazed Pottery Shop" />
-          <p>Innovative handcrafted pottery for the home, made by Mandy Krolak in Colorado.</p>
+          <p>Innovative handcrafted pottery for the home, made by Mandy Krolak in Gypsum, Colorado.</p>
         </div>
 
         <div className="footer-links">
           <div>
             <strong>SHOP</strong>
             <a href="#shop">Current work</a>
-            <a href="#glaze-lab">Raku + glaze</a>
+            <a href="#markets">Market schedule</a>
           </div>
           <div>
             <strong>STUDIO</strong>
@@ -46,14 +46,14 @@ export default function Footer({ onClayTap }) {
             <strong>CONNECT</strong>
             <a href="mailto:glazedpotteryshop@gmail.com"><Mail size={14} /> Email Mandy</a>
             <a href="https://www.instagram.com/glazedpottery/" target="_blank" rel="noreferrer"><InstagramIcon size={14} /> Instagram</a>
-            <button onClick={onClayTap}><MapPin size={14} /> Colorado clay note</button>
+            <a href="https://www.google.com/maps/search/?api=1&query=461+Railroad+Ave+Gypsum+CO" target="_blank" rel="noreferrer"><MapPin size={14} /> 461 Railroad Ave</a>
           </div>
         </div>
       </div>
 
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} GLAZED POTTERY SHOP</span>
-        <span>EAGLE, COLORADO</span>
+        <span>GYPSUM, COLORADO</span>
       </div>
     </footer>
   );

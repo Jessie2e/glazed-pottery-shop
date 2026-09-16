@@ -5,7 +5,7 @@ import TrustBar from './components/TrustBar';
 import ShopSection from './components/ShopSection';
 import StorySection from './components/StorySection';
 import ExperienceHub from './components/ExperienceHub';
-import GlazeMixer from './components/GlazeMixer';
+import MarketStudio from './components/MarketStudio';
 import Reviews from './components/Reviews';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -48,10 +48,10 @@ export default function App() {
         <ShopSection onAddToCart={addToCart} />
         <ExperienceHub onToast={showToast} />
         <StorySection />
-        <GlazeMixer />
+        <MarketStudio onToast={showToast} />
         <Reviews />
       </main>
-      <Footer onClayTap={() => showToast('Clay note: Mandy’s work is rooted in natural clays and a long-running curiosity about material, surface and firing.')} />
+      <Footer onToast={showToast} />
       <MobileNav cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
       <CartDrawer
         open={cartOpen}

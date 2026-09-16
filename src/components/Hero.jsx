@@ -50,7 +50,7 @@ export default function Hero() {
       </div>
 
       <div className="hero-corner-note">
-        <span>WHEEL-THROWN</span><span>GLAZES FROM SCRATCH</span><span>RAKU + HIGH FIRE</span>
+        <span>WHEEL-THROWN</span><span>GLAZES FROM SCRATCH</span><span>SMALL-BATCH + FUNCTIONAL</span>
       </div>
     </section>
   );

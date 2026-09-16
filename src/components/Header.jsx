@@ -85,7 +85,7 @@ export default function Header({ cartCount, onCartOpen }) {
   const links = [
     ['Shop', '#shop'],
     ['Classes + Studio', '#experiences'],
-    ['Glaze Lab', '#glaze-lab'],
+    ['Market Schedule', '#markets'],
     ['Mandy', '#story'],
   ];
 
