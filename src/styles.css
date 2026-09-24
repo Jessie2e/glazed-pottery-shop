@@ -5061,3 +5061,27 @@ main { display: block; }
     rotate(45deg)
     translateY(-194px);
 }
+/* =========================================================
+   STUDIO ORBITS — lock desktop/tablet positioning
+   ========================================================= */
+
+@media (min-width: 821px) {
+
+  .studio-copy-ring,
+  .studio-copy-orbit {
+    top: 48%;
+    translate: 0 -50%;
+  }
+
+  .studio-copy-ring--one,
+  .studio-copy-orbit--one {
+    width: min(420px, 38vw);
+    right: -12%;
+  }
+
+  .studio-copy-ring--two,
+  .studio-copy-orbit--two {
+    width: min(620px, 54vw);
+    right: -29%;
+  }
+}
