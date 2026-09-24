@@ -3,7 +3,6 @@ import {
   Check,
   Clock3,
   Flame,
-  MapPin,
   Sparkles,
   Users,
 } from 'lucide-react';
@@ -43,86 +42,32 @@ const memberships = [
   },
 ];
 
-/*
-  MARKET DATES
-  ------------
-  Mandy has not supplied confirmed dates / location / times yet, so none are
-  invented here.
-
-  When she sends them, add them like this:
-
-  {
-    id: 'oct-04',
-    dateLabel: 'OCT 04',
-    title: 'Market name',
-    location: 'Market venue · Town, CO',
-    timeLabel: '10 AM — 2 PM',
-    start: '2026-10-04T10:00:00',
-    end: '2026-10-04T14:00:00',
-  },
-
-  Once start + end exist, the ADD TO CALENDAR button works automatically.
-*/
-const marketDates = [];
-
-function downloadCalendarEvent(event) {
-  if (!event.start || !event.end) return;
-
-  const formatICSDate = (value) =>
-    new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Glazed Pottery Shop//Market Schedule//EN',
-    'BEGIN:VEVENT',
-    `UID:${event.id}@glazedpotteryshop.com`,
-    `DTSTAMP:${formatICSDate(new Date().toISOString())}`,
-    `DTSTART:${formatICSDate(event.start)}`,
-    `DTEND:${formatICSDate(event.end)}`,
-    `SUMMARY:Glazed Pottery Shop — ${event.title}`,
-    `LOCATION:${event.location}`,
-    'DESCRIPTION:Shop Glazed Pottery in person.',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n');
-
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-
-  link.href = url;
-  link.download = `glazed-${event.id}.ics`;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-}
-
 function RakuFestCallout({ onToast }) {
   return (
     <article className="raku-fest-card">
       <div className="raku-fest-icon" aria-hidden="true">
-        <Flame size={20} />
+        <Flame size={24} />
       </div>
 
       <div className="raku-fest-copy">
         <p className="eyebrow">SPECIAL EVENT · TWICE A YEAR</p>
-        <h3>
-          Raku Fest
-          <span> · Spring firing event</span>
-        </h3>
+        <h3>Raku Fest</h3>
+        <p>
+          Purchase a bisque piece, choose your finish, then stay for the magic
+          and watch Mandy fire it live. Raku Fest is offered on select spring
+          dates when local conditions allow and there are no fire bans.
+        </p>
       </div>
 
       <button
-        className="text-link"
+        className="button button-accent"
         onClick={() =>
           onToast(
             'You’re on the Raku Fest interest list — dates will be shared when spring firing conditions allow.'
           )
         }
       >
-        GET UPDATES →
+        GET RAKU FEST UPDATES
       </button>
     </article>
   );
@@ -337,93 +282,12 @@ function MembershipPanel({ onToast }) {
   );
 }
 
-function MarketSchedulePanel({ onToast }) {
-  return (
-    <div className="market-tab-panel">
-
-      <div className="market-date-list">
-        {marketDates.length > 0 ? (
-          marketDates.map((event) => (
-            <article className="market-date-row" key={event.id}>
-              <div className="market-date-day">{event.dateLabel}</div>
-
-              <div className="market-date-details">
-                <strong>{event.title}</strong>
-                <span>
-                  <MapPin size={15} />
-                  {event.location}
-                </span>
-              </div>
-
-              <div className="market-date-time">
-                <Clock3 size={15} />
-                {event.timeLabel}
-              </div>
-
-              <button
-                className="market-calendar-button"
-                onClick={() => downloadCalendarEvent(event)}
-              >
-                <CalendarDays size={16} />
-                ADD TO CALENDAR
-              </button>
-            </article>
-          ))
-        ) : (
-          <div className="market-coming-soon">
-            <div className="market-coming-soon-date">
-              <CalendarDays size={22} />
-              <span>NEW DATES</span>
-            </div>
-
-            <div>
-              <strong>Coming soon</strong>
-              <p>
-                Mandy is wrapping up her current Sunday market season. Fresh
-                dates, locations and times will be added here as soon as they
-                are confirmed.
-              </p>
-            </div>
-
-            <span className="market-calendar-placeholder">
-              ADD TO CALENDAR AVAILABLE WITH CONFIRMED DATES
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="market-tab-bottom">
-        <div>
-          <span>RAKU FEST</span>
-          <strong>Twice yearly · spring</strong>
-          <p>
-            Scheduled only when local conditions allow and there are no fire
-            bans.
-          </p>
-        </div>
-
-        <button
-          className="text-link"
-          onClick={() =>
-            onToast(
-              'Market update signup is ready — add your email in Let’s Be Friends below.'
-            )
-          }
-        >
-          GET MARKET UPDATES →
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export default function ExperienceHub({ onToast }) {
   const [tab, setTab] = useState('class');
 
   const clayOrbitRef = useRef(null);
   const sectionRef = useRef(null);
-  const createRef = useRef(null);
-
+const createRef = useRef(null);
   useEffect(() => {
     let frame;
 
@@ -442,6 +306,11 @@ export default function ExperienceHub({ onToast }) {
         )
       );
 
+      /*
+        Small movement only:
+        starts around -25 degrees
+        ends around 85 degrees
+      */
       const rotation = -25 + progress * 110;
 
       clayOrbitRef.current.style.transform =
@@ -468,62 +337,80 @@ export default function ExperienceHub({ onToast }) {
     };
   }, []);
 
-  useEffect(() => {
-    const element = createRef.current;
+ useEffect(() => {
+  const element = createRef.current;
 
-    if (!element) return;
+  if (!element) return;
 
-    let hasPlayed = false;
-    let previousTop = element.getBoundingClientRect().top;
+  let hasPlayed = false;
 
-    const handleScroll = () => {
-      if (hasPlayed) return;
+  // Where the word is when the page first loads.
+  // We DO NOT animate here.
+  let previousTop = element.getBoundingClientRect().top;
 
-      const rect = element.getBoundingClientRect();
-      const triggerLine = window.innerHeight * 0.78;
+  const handleScroll = () => {
+    if (hasPlayed) return;
 
-      const crossedIntoView =
-        previousTop > triggerLine &&
-        rect.top <= triggerLine;
+    const rect = element.getBoundingClientRect();
 
-      if (crossedIntoView) {
-        hasPlayed = true;
+    // Animation fires when "create." crosses
+    // this point while moving UP the screen.
+    const triggerLine = window.innerHeight * 0.78;
 
-        const letters = element.querySelectorAll('.create-letter');
+    const crossedIntoView =
+      previousTop > triggerLine &&
+      rect.top <= triggerLine;
 
-        letters.forEach((letter, index) => {
-          letter.animate(
-            [
-              { transform: 'translateY(0) rotate(0deg)' },
-              { transform: 'translateY(-16px) rotate(-3deg)', offset: 0.32 },
-              { transform: 'translateY(5px) rotate(2deg)', offset: 0.62 },
-              { transform: 'translateY(-3px) rotate(-1deg)', offset: 0.8 },
-              { transform: 'translateY(0) rotate(0deg)' },
-            ],
-            {
-              duration: 1450,
-              delay: index * 110,
-              easing: 'cubic-bezier(.22, 1, .36, 1)',
-              fill: 'both',
-            }
-          );
-        });
+    if (crossedIntoView) {
+      hasPlayed = true;
 
-        window.removeEventListener('scroll', handleScroll);
-      }
+      const letters = element.querySelectorAll('.create-letter');
 
-      previousTop = rect.top;
-    };
+letters.forEach((letter, index) => {
+  letter.animate(
+    [
+      {
+        transform: 'translateY(0) rotate(0deg)',
+      },
+      {
+        transform: 'translateY(-16px) rotate(-3deg)',
+        offset: 0.32,
+      },
+      {
+        transform: 'translateY(5px) rotate(2deg)',
+        offset: 0.62,
+      },
+      {
+        transform: 'translateY(-3px) rotate(-1deg)',
+        offset: 0.8,
+      },
+      {
+        transform: 'translateY(0) rotate(0deg)',
+      },
+    ],
+    {
+      duration: 1450,
+      delay: index * 110,
+      easing: 'cubic-bezier(.22, 1, .36, 1)',
+      fill: 'both',
+    }
+  );
+});
 
-    window.addEventListener('scroll', handleScroll, {
-      passive: true,
-    });
-
-    return () => {
       window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+    }
 
+    previousTop = rect.top;
+  };
+
+  window.addEventListener('scroll', handleScroll, {
+    passive: true,
+  });
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
   return (
     <section
       ref={sectionRef}
@@ -537,52 +424,36 @@ export default function ExperienceHub({ onToast }) {
       />
 
       <div className="experience-heading">
-  <p className="eyebrow">MAKE SOMETHING HERE</p>
+        <p className="eyebrow">MAKE SOMETHING HERE</p>
 
-  <h2>
-    Come hang.
-    <br />
-    Come{' '}
-    <span
-      ref={createRef}
-      className="create-emphasis"
-      aria-label="create."
-    >
-      {'create.'.split('').map((letter, index) => (
-        <span
-          key={`${letter}-${index}`}
-          className="create-letter"
-          aria-hidden="true"
-        >
-          {letter}
-        </span>
-      ))}
-    </span>
-  </h2>
-
-  <div className="experience-heading-copy">
-    <p>
-      Take a class, reserve studio time, join the local maker community or
-      catch Glazed at a market.
-    </p>
-
-    <button
-      className="experience-raku-note"
-      onClick={() =>
-        onToast(
-          'You’re on the Raku Fest interest list — dates will be shared when spring firing conditions allow.'
-        )
-      }
-    >
-      <Flame size={15} />
-      <span>
-        <strong>RAKU FEST</strong>
-        Twice yearly · spring
+        <h2>
+  Come hang.
+  <br />
+  Come{' '}
+  <span
+    ref={createRef}
+    className="create-emphasis"
+    aria-label="create."
+  >
+    {'create.'.split('').map((letter, index) => (
+      <span
+        key={`${letter}-${index}`}
+        className="create-letter"
+        aria-hidden="true"
+      >
+        {letter}
       </span>
-      <span>GET UPDATES →</span>
-    </button>
-  </div>
-</div>
+    ))}
+  </span>
+</h2>
+
+        <p>
+          Take a class, reserve studio time or join the local maker community —
+          all in one place.
+        </p>
+      </div>
+
+      <RakuFestCallout onToast={onToast} />
 
       <div
         className="experience-tabs"
@@ -609,13 +480,6 @@ export default function ExperienceHub({ onToast }) {
         >
           MEMBERSHIP
         </button>
-
-        <button
-          className={tab === 'markets' ? 'is-active' : ''}
-          onClick={() => setTab('markets')}
-        >
-          MARKET SCHEDULE
-        </button>
       </div>
 
       <div className="experience-content">
@@ -629,10 +493,6 @@ export default function ExperienceHub({ onToast }) {
 
         {tab === 'member' && (
           <MembershipPanel onToast={onToast} />
-        )}
-
-        {tab === 'markets' && (
-          <MarketSchedulePanel onToast={onToast} />
         )}
       </div>
     </section>

@@ -86,7 +86,7 @@ export default function Header({ cartCount, onCartOpen }) {
     ['Shop', '#shop'],
     ['Classes + Studio', '#experiences'],
     ['Market Schedule', '#markets'],
-    ['Mandy', '#story'],
+    ['Artist Bio', '#story'],
   ];
 
   return (

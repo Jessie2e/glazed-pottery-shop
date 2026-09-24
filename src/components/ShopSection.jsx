@@ -1,123 +1,120 @@
-import { ArrowRight, ShoppingBag, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { categories, products } from '../data/products';
+import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
-function ProductCard({ product, onQuickAdd }) {
+const collections = [
+  {
+    id: 'mugs',
+    label: 'Mugs & Cups',
+    kicker: 'MORNING RITUALS',
+    title: 'Mugs & Cups',
+    description:
+      'Handmade mugs and cups for coffee, tea and the everyday rituals worth slowing down for.',
+    featuredName: 'Ocean Landscape Mug',
+    image:
+      'https://i.etsystatic.com/13059066/r/il/62b3ea/3945919636/il_fullxfull.3945919636_m8z1.jpg',
+    imagePosition: '50% 52%',
+    theme: 'terracotta',
+  },
+  {
+    id: 'serving',
+    label: 'Kitchen + Serving',
+    kicker: 'MADE FOR GATHERING',
+    title: 'Kitchen + Serving',
+    description:
+      'Chip + dip platters, berry bowls, plates and functional pieces made to earn their place at the table.',
+    featuredName: 'Matte Black Chip + Dip',
+    image: '/assets/chip-dip-black.jpeg',
+    imagePosition: '50% 72%',
+    theme: 'charcoal',
+  },
+  {
+    id: 'sink',
+    label: 'Sink + Bath',
+    kicker: 'BEAUTIFUL + USEFUL',
+    title: 'Sink + Bath',
+    description:
+      'Thoughtful pieces for the spaces you use every day — from self-draining sponge holders to soap dishes and more.',
+    featuredName: 'Self-Draining Sponge Holder',
+    image: '/assets/sponge-holder.jpeg',
+    imagePosition: '56% 58%',
+    theme: 'teal',
+  },
+  {
+    id: 'raku',
+    label: 'Raku + Air Plants',
+    kicker: 'ONE OF A KIND',
+    title: 'Raku + Air Plants',
+    description:
+      'Expressive Raku-fired pieces shaped by flame, smoke and surprise — each one with a finish all its own.',
+    featuredName: 'Rainbow Raku Air Plant Hanger',
+    image:
+      'https://i.etsystatic.com/13059066/r/il/e990ad/3455463727/il_fullxfull.3455463727_o0di.jpg',
+    imagePosition: '50% 50%',
+    theme: 'ochre',
+  },
+];
+
+const ETSY_URL = 'https://www.etsy.com/shop/GlazedPotteryShop';
+
+export default function ShopSection() {
+  const [activeId, setActiveId] = useState(collections[0].id);
+  const active = collections.find((collection) => collection.id === activeId) || collections[0];
+
   return (
-    <article className={`product-card ${product.raku ? 'raku-card' : ''}`}>
-      <button className="product-image-wrap" onClick={() => onQuickAdd(product)} aria-label={`View ${product.title}`}>
-        <img className="product-image product-image-primary" src={product.image} alt={product.title} />
-        <img className="product-image product-image-secondary" src={product.secondaryImage} alt="" aria-hidden="true" />
-        {product.raku && <span className="smoke" aria-hidden="true"><i /><i /><i /></span>}
-        {product.stock === 1 && <span className="stock-note">ONLY 1 LEFT</span>}
-        <span className="quick-add-hover"><ShoppingBag size={15} /> QUICK ADD</span>
-      </button>
-      <div className="product-meta">
-        <div>
-          <p>{product.category}</p>
-          <h3>{product.title}</h3>
-        </div>
-        <span>${product.price}</span>
-      </div>
-    </article>
-  );
-}
+    <section className={`collection-shop collection-shop--${active.theme}`} id="shop">
+      <div className="collection-shop__intro">
+        <p className="eyebrow">SHOP OUR CERAMICS</p>
 
-function QuickAddModal({ product, onClose, onAdd }) {
-  if (!product) return null;
-  return (
-    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
-      <div className="quick-modal" role="dialog" aria-modal="true" aria-label={`Add ${product.title}`} onMouseDown={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close"><X size={20} /></button>
-        <div className="quick-modal-image"><img src={product.image} alt={product.title} /></div>
-        <div className="quick-modal-content">
-          <p className="eyebrow">{product.category}</p>
-          <h3>{product.title}</h3>
-          <div className="price-row"><strong>${product.price}</strong><span>{product.stock === 1 ? 'Only 1 available' : `${product.stock} available`}</span></div>
-          <p>{product.description}</p>
-          <button className="button button-accent button-full" onClick={() => onAdd(product)}><ShoppingBag size={17} /> ADD TO CART</button>
-          <small>Prototype checkout. At launch this connects to Shopify.</small>
+        <div className="collection-shop__tabs" role="tablist" aria-label="Shop collections">
+          {collections.map((collection) => (
+            <button
+              key={collection.id}
+              type="button"
+              role="tab"
+              aria-selected={active.id === collection.id}
+              className={active.id === collection.id ? 'is-active' : ''}
+              onClick={() => setActiveId(collection.id)}
+            >
+              {collection.label}
+            </button>
+          ))}
         </div>
       </div>
-    </div>
-  );
-}
 
-export default function ShopSection({ onAddToCart }) {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [quickProduct, setQuickProduct] = useState(null);
-  const [migrationVisible, setMigrationVisible] = useState(true);
+      <div className="collection-shop__feature" aria-live="polite">
+        <span className="collection-shop__shape collection-shop__shape--left" aria-hidden="true" />
+        <span className="collection-shop__shape collection-shop__shape--right" aria-hidden="true" />
+        <span className="collection-shop__line" aria-hidden="true" />
 
-  const visibleProducts = useMemo(() => (
-    activeCategory === 'All' ? products : products.filter((product) => product.category === activeCategory)
-  ), [activeCategory]);
+        <div className="collection-shop__copy" key={`${active.id}-copy`}>
+          <p className="collection-shop__kicker">{active.kicker}</p>
+          <h2>{active.title}</h2>
+          <p>{active.description}</p>
 
-  const handleAdd = (product) => {
-    onAddToCart(product);
-    setQuickProduct(null);
-  };
-
-  return (
-    <section className="shop-section" id="shop">
-      <div className="section-heading-row">
-        <div>
-          <p className="eyebrow">SHOP THE STUDIO</p>
-          <h2>Useful. Beautiful.<br />Made by hand.</h2>
-        </div>
-        <p className="section-heading-copy">
-          Mandy designs pottery around the rituals she actually loves — cooking, entertaining, plants and the everyday objects that earn a place in your home.
-        </p>
-      </div>
-
-      {migrationVisible && (
-        <div className="migration-note">
-          <img src="/assets/logomark.png" alt="" aria-hidden="true" />
-          <p><strong>COMING FROM ETSY?</strong> You’re in the right place. The Shopify shop will carry over Glazed’s product photos, descriptions and familiar collections.</p>
-          <a href="https://www.etsy.com/shop/GlazedPotteryShop" target="_blank" rel="noreferrer">CURRENT ETSY <ArrowRight size={15} /></a>
-          <button onClick={() => setMigrationVisible(false)} aria-label="Dismiss Etsy migration note"><X size={16} /></button>
-        </div>
-      )}
-
-      <div className="category-scroller" aria-label="Product categories">
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            className={activeCategory === category.name ? 'is-active' : ''}
-            onClick={() => setActiveCategory(category.name)}
-            aria-pressed={activeCategory === category.name}
+          <a
+            className="collection-shop__button"
+            href={ETSY_URL}
+            target="_blank"
+            rel="noreferrer"
           >
-            {category.name}<span>{category.count}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="shop-results-head">
-        <span>{activeCategory === 'All' ? 'FEATURED NOW' : activeCategory.toUpperCase()}</span>
-        <span>{visibleProducts.length} PREVIEW ITEM{visibleProducts.length === 1 ? '' : 'S'}</span>
-      </div>
-
-      {visibleProducts.length ? (
-        <div className="product-grid">
-          {visibleProducts.map((product) => <ProductCard key={product.id} product={product} onQuickAdd={setQuickProduct} />)}
+            SHOP ALL POTTERY <ArrowRight size={16} />
+          </a>
         </div>
-      ) : (
-        <div className="empty-category">
-          <h3>Full catalog coming from Shopify.</h3>
-          <p>This prototype only includes the photos currently provided. The live store will populate this collection from Shopify automatically.</p>
-          <button className="text-link" onClick={() => setActiveCategory('All')}>BACK TO FEATURED <ArrowRight size={15} /></button>
-        </div>
-      )}
 
-      <div className="shop-all-row">
-        <a className="button button-dark" href="https://www.etsy.com/shop/GlazedPotteryShop" target="_blank" rel="noreferrer">VIEW ALL 33 CURRENT ITEMS <ArrowUpRightIcon /></a>
-        <span>Shopify-ready catalog structure · fast add-to-cart · mobile-first checkout</span>
+        <div className="collection-shop__art" key={`${active.id}-image`}>
+          <div className="collection-shop__image-wrap">
+            <img
+              src={active.image}
+              alt={active.featuredName}
+              style={{ objectPosition: active.imagePosition }}
+            />
+          </div>
+          <p className="collection-shop__featured-name">
+            FEATURED · {active.featuredName}
+          </p>
+        </div>
       </div>
 
-      <QuickAddModal product={quickProduct} onClose={() => setQuickProduct(null)} onAdd={handleAdd} />
     </section>
   );
-}
-
-function ArrowUpRightIcon() {
-  return <span aria-hidden="true">↗</span>;
 }

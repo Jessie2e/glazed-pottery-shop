@@ -1,15 +1,14 @@
 import { useMemo, useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import TrustBar from './components/TrustBar';
 import ShopSection from './components/ShopSection';
 import StorySection from './components/StorySection';
 import ExperienceHub from './components/ExperienceHub';
-import MarketStudio from './components/MarketStudio';
 import Reviews from './components/Reviews';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import MobileNav from './components/MobileNav';
+import StudioSection from './components/StudioSection-';
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -44,12 +43,11 @@ export default function App() {
       <Header cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
       <main>
         <Hero />
-        <TrustBar />
         <ShopSection onAddToCart={addToCart} />
         <ExperienceHub onToast={showToast} />
-        <StorySection />
-        <MarketStudio onToast={showToast} />
-        <Reviews />
+<StorySection />
+<StudioSection />
+<Reviews />
       </main>
       <Footer onToast={showToast} />
       <MobileNav cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
