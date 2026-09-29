@@ -5085,3 +5085,250 @@ main { display: block; }
     right: -29%;
   }
 }
+/* =========================================================
+   MANDY REVIEW ROUND · 2026-09-29
+   Collection pages, turquoise footer + brighter studio image
+   ========================================================= */
+
+/* The fifth navigation link still fits comfortably on wide screens. */
+.desktop-nav {
+  gap: clamp(16px, 2vw, 32px);
+}
+
+/* Collection showcase buttons retain the original link-like styling. */
+.collection-shop__button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.collection-shop__art-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+/* Mandy asked for the studio/gallery image to feel brighter. */
+.studio-visit-photo--animated img {
+  filter: brightness(1.12) contrast(.96) saturate(1.04);
+}
+
+/* Turquoise footer instead of black. */
+.site-footer {
+  background: var(--teal-deep);
+}
+
+.site-footer .footer-newsletter .eyebrow,
+.site-footer .footer-links strong {
+  color: #eafffc;
+}
+
+.site-footer .footer-brand-block p,
+.site-footer .footer-links a,
+.site-footer .footer-links button {
+  color: rgba(255,255,255,.78);
+}
+
+.site-footer .footer-bottom {
+  color: rgba(255,255,255,.62);
+}
+
+/* ---------- dedicated collection view ---------- */
+.collection-page {
+  --collection-page-accent: var(--terracotta);
+  --collection-page-wash: var(--terracotta-wash);
+  min-height: calc(100svh - var(--header-h));
+  background: var(--paper);
+}
+
+.collection-page--teal {
+  --collection-page-accent: var(--teal);
+  --collection-page-wash: var(--teal-wash);
+}
+
+.collection-page--ochre {
+  --collection-page-accent: var(--ochre);
+  --collection-page-wash: var(--ochre-wash);
+}
+
+.collection-page--charcoal {
+  --collection-page-accent: var(--ink);
+  --collection-page-wash: #e7e4dc;
+}
+
+.collection-page__hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(48px, 7vw, 92px) clamp(24px, 6vw, 92px) clamp(62px, 8vw, 110px);
+  background:
+    radial-gradient(circle at 88% 24%, var(--collection-page-accent) 0 13%, transparent 13.2%),
+    linear-gradient(135deg, var(--collection-page-wash), var(--paper) 72%);
+}
+
+.collection-page__hero::after {
+  content: '';
+  position: absolute;
+  right: -8vw;
+  bottom: -24vw;
+  width: min(46vw, 680px);
+  aspect-ratio: 1;
+  border: clamp(18px, 3vw, 46px) solid var(--collection-page-accent);
+  border-radius: 50%;
+  opacity: .14;
+  pointer-events: none;
+}
+
+.collection-page__back {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 clamp(54px, 8vw, 100px);
+  padding: 0 0 5px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+}
+
+.collection-page__hero .eyebrow,
+.collection-page__hero h1,
+.collection-page__hero > p:last-child {
+  position: relative;
+  z-index: 1;
+}
+
+.collection-page__hero .eyebrow {
+  color: var(--soft-ink);
+}
+
+.collection-page__hero h1 {
+  max-width: 980px;
+  margin: 10px 0 0;
+  font-size: clamp(4rem, 9vw, 8.6rem);
+  line-height: .9;
+  font-weight: 500;
+  letter-spacing: -.065em;
+}
+
+.collection-page__hero > p:last-child {
+  max-width: 650px;
+  margin: 30px 0 0;
+  color: var(--soft-ink);
+  font-size: clamp(1rem, 1.35vw, 1.16rem);
+  line-height: 1.7;
+}
+
+.collection-page__body {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(62px, 8vw, 110px) clamp(24px, 5vw, 72px) clamp(80px, 9vw, 130px);
+}
+
+.collection-page__results-head {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  color: var(--soft-ink);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.collection-page__grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(38px, 5vw, 66px) clamp(18px, 2vw, 28px);
+}
+
+.collection-page__grid .product-card {
+  max-width: 430px;
+}
+
+.collection-page__shop-all {
+  margin-top: clamp(68px, 9vw, 120px);
+  padding: clamp(36px, 5vw, 58px);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 34px;
+  background: var(--collection-page-wash);
+}
+
+.collection-page__shop-all .eyebrow {
+  margin-bottom: 10px;
+}
+
+.collection-page__shop-all h2 {
+  max-width: 700px;
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 4.5rem);
+  line-height: .98;
+  font-weight: 500;
+  letter-spacing: -.05em;
+}
+
+@media (max-width: 900px) {
+  .collection-page__hero {
+    padding-top: 38px;
+  }
+
+  .collection-page__back {
+    margin-bottom: 58px;
+  }
+
+  .collection-page__shop-all {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 620px) {
+  .collection-page__hero {
+    padding: 30px 20px 64px;
+  }
+
+  .collection-page__back {
+    margin-bottom: 48px;
+  }
+
+  .collection-page__hero h1 {
+    font-size: clamp(3.3rem, 17vw, 5rem);
+  }
+
+  .collection-page__body {
+    padding: 54px 18px 86px;
+  }
+
+  .collection-page__results-head {
+    display: grid;
+    gap: 7px;
+  }
+
+  .collection-page__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 10px;
+  }
+
+  .collection-page__shop-all {
+    margin-top: 64px;
+    padding: 30px 22px;
+  }
+
+  .collection-page__shop-all .button {
+    width: 100%;
+  }
+}

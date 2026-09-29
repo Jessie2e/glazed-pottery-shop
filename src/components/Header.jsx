@@ -80,19 +80,27 @@ function ScrollSpiralGlint() {
   );
 }
 
-export default function Header({ cartCount, onCartOpen }) {
+export default function Header({ cartCount, onCartOpen, onNavigate }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const links = [
     ['Shop', '#shop'],
     ['Classes + Studio', '#experiences'],
     ['Market Schedule', '#markets'],
     ['Artist Bio', '#story'],
+    ['Behind the Scenes', '#studio'],
   ];
+
+  const handleNavigate = (event, href) => {
+    if (!onNavigate) return;
+    event.preventDefault();
+    onNavigate(href);
+    setMobileOpen(false);
+  };
 
   return (
     <>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Glazed Pottery Shop home">
+        <a className="brand" href="#top" aria-label="Glazed Pottery Shop home" onClick={(event) => handleNavigate(event, '#top')}>
           <span className="brand-logo-lockup">
             <img src="/assets/logo-horizontal-transparent.png" alt="Glazed Pottery Shop" />
             <ScrollSpiralGlint />
@@ -100,11 +108,10 @@ export default function Header({ cartCount, onCartOpen }) {
         </a>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {links.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
+          {links.map(([label, href]) => <a key={label} href={href} onClick={(event) => handleNavigate(event, href)}>{label}</a>)}
         </nav>
 
         <div className="header-actions">
-          <a className="header-book-link desktop-only" href="#experiences">BOOK A CLASS</a>
           <button className="cart-button" onClick={onCartOpen} aria-label="Open cart">
             <ShoppingBag size={18} />
             <span>CART</span>
@@ -124,9 +131,9 @@ export default function Header({ cartCount, onCartOpen }) {
       {mobileOpen && (
         <nav className="mobile-menu" aria-label="Mobile navigation">
           {links.map(([label, href]) => (
-            <a key={label} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
+            <a key={label} href={href} onClick={(event) => handleNavigate(event, href)}>{label}</a>
           ))}
-          <a className="button button-accent" href="#shop" onClick={() => setMobileOpen(false)}>SHOP THE STUDIO</a>
+          <a className="button button-accent" href="#shop" onClick={(event) => handleNavigate(event, '#shop')}>SHOP THE STUDIO</a>
         </nav>
       )}
     </>

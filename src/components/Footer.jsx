@@ -10,7 +10,13 @@ function InstagramIcon({ size = 15 }) {
   );
 }
 
-export default function Footer({ onToast }) {
+export default function Footer({ onToast, onNavigate }) {
+  const handleNavigate = (event, href) => {
+    if (!onNavigate) return;
+    event.preventDefault();
+    onNavigate(href);
+  };
+
   return (
     <footer className="site-footer">
       <div className="footer-newsletter" id="friends">
@@ -33,14 +39,15 @@ export default function Footer({ onToast }) {
         <div className="footer-links">
           <div>
             <strong>SHOP</strong>
-            <a href="#shop">Current work</a>
-            <a href="#markets">Market schedule</a>
+            <a href="#shop" onClick={(event) => handleNavigate(event, '#shop')}>Current work</a>
+            <a href="#markets" onClick={(event) => handleNavigate(event, '#markets')}>Market schedule</a>
           </div>
           <div>
             <strong>STUDIO</strong>
-            <a href="#experiences">Classes</a>
-            <a href="#experiences">Studio time</a>
-            <a href="#membership">Membership</a>
+            <a href="#experiences" onClick={(event) => handleNavigate(event, '#experiences')}>Classes</a>
+            <a href="#experiences" onClick={(event) => handleNavigate(event, '#experiences')}>Studio time</a>
+            <a href="#membership" onClick={(event) => handleNavigate(event, '#membership')}>Membership</a>
+            <a href="#studio" onClick={(event) => handleNavigate(event, '#studio')}>Behind the scenes</a>
           </div>
           <div>
             <strong>CONNECT</strong>

@@ -7,7 +7,7 @@ export default function Reviews() {
       <div className="reviews-head">
         <div>
           <p className="eyebrow">FROM THE ETSY YEARS</p>
-          <h2>Already loved.<br />Now coming home.</h2>
+          <h2>Loved, used, and<br />living happily in their new homes.</h2>
         </div>
         <div className="review-proof">
           <strong>4.9 <Star size={18} fill="currentColor" /></strong>

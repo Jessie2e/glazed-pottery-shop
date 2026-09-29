@@ -67,8 +67,8 @@ export default function Hero() {
         <p className="hero-kicker">GLAZED POTTERY SHOP · COLORADO</p>
         <h1>Innovative pottery<br />for the home.</h1>
         <p className="hero-lede">
-  Functional pottery by ceramic artist Mandy Krolak, made in Gypsum, Colorado
-  for everyday rituals, gathering, and home.
+  Handcrafted pottery by ceramic artist Mandy Krolak, made in Gypsum, Colorado
+  to bring beauty, function, and a little joy to everyday life.
 </p>
         <div className="hero-actions">
           <a className="button button-light" href="#shop">SHOP CERAMICS <ArrowUpRight size={17} /></a>

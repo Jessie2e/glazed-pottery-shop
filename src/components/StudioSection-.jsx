@@ -111,7 +111,7 @@ export default function StudioSection() {
               <MapPin size={21} />
             </div>
 
-            <p className="eyebrow">VISIT THE STUDIO</p>
+            <p className="eyebrow">BEHIND THE SCENES · VISIT THE STUDIO</p>
 
             <h3>
               Shop local.
