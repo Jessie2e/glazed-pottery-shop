@@ -635,18 +635,187 @@ main { display: block; }
 .membership-price { display: block; margin-bottom: 22px; color: #797b76; font-size: .72rem; letter-spacing: .08em; }
 
 /* ---------- reviews ---------- */
-.reviews-section { max-width: var(--max); margin: 0 auto; padding: clamp(100px, 11vw, 160px) clamp(24px, 5vw, 72px); }
-.reviews-head { display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: end; margin-bottom: 58px; }
-.review-proof { min-width: 260px; text-align: right; }
-.review-proof strong { display: flex; align-items: center; justify-content: flex-end; gap: 7px; font-size: 2rem; font-weight: 500; }
-.review-proof span { display: block; margin-top: 5px; color: #7f817d; font-size: .72rem; }
-.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.review-card { min-height: 280px; padding: 34px 34px 30px 0; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
-.review-card + .review-card { padding-left: 34px; }
-.review-card:last-child { border-right: 0; }
-.review-stars { display: flex; gap: 3px; color: var(--teal-deep); }
-.review-card blockquote { margin: 34px 0 auto; padding-bottom: 42px; font-size: clamp(1.35rem, 2vw, 1.85rem); line-height: 1.28; letter-spacing: -.035em; }
-.review-card > span { color: #858782; font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; }
+
+.reviews-section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(85px, 9vw, 125px) clamp(24px, 5vw, 72px);
+  position: relative;
+}
+
+/* soft handmade color wash behind the section */
+
+
+.reviews-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: end;
+  margin-bottom: 42px;
+}
+
+.reviews-head .eyebrow {
+  color: var(--teal-deep);
+}
+
+.reviews-head h2 {
+  max-width: 900px;
+}
+
+/* Etsy rating becomes an intentional little proof card */
+.review-proof {
+  min-width: 245px;
+  padding: 20px 22px;
+  text-align: left;
+  background: rgba(226, 241, 239, 0.75);
+  border-radius: 20px;
+}
+
+.review-proof strong {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.review-proof strong svg {
+  color: var(--terracotta);
+}
+
+.review-proof span {
+  display: block;
+  margin-top: 5px;
+  color: var(--soft-ink);
+  font-size: 0.72rem;
+}
+
+/* remove the rigid spreadsheet-like borders */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  border: 0;
+}
+
+.review-card {
+  min-height: 255px;
+  padding: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(32, 33, 31, 0.08);
+  border-radius: 26px;
+
+  box-shadow:
+    0 12px 35px rgba(32, 33, 31, 0.045);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.review-card + .review-card {
+  padding-left: 30px;
+}
+
+.review-card:last-child {
+  border-right: 1px solid rgba(32, 33, 31, 0.08);
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 18px 46px rgba(32, 33, 31, 0.08);
+}
+
+/* subtle pottery-color accent */
+.review-card:nth-child(2) {
+  background: rgba(242, 221, 211, 0.38);
+}
+
+.review-card:nth-child(3) {
+  background: rgba(226, 241, 239, 0.58);
+}
+
+.review-stars {
+  display: flex;
+  gap: 3px;
+  color: var(--teal-deep);
+}
+
+.review-card:nth-child(2) .review-stars {
+  color: var(--terracotta);
+}
+
+.review-card blockquote {
+  margin: 27px 0 auto;
+  padding-bottom: 34px;
+  font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+}
+
+.review-card > span {
+  color: #777a75;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* tablet */
+@media (max-width: 900px) {
+  .reviews-head {
+    grid-template-columns: 1fr;
+  }
+
+  .review-proof {
+    width: fit-content;
+    min-width: 0;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-card {
+    min-height: 220px;
+  }
+}
+
+
+/* mobile */
+@media (max-width: 600px) {
+  .reviews-section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .reviews-head {
+    margin-bottom: 28px;
+  }
+
+  .review-proof {
+    width: 100%;
+  }
+
+  .review-card,
+  .review-card + .review-card {
+    padding: 25px;
+  }
+
+  .review-card blockquote {
+    padding-bottom: 26px;
+  }
+}
 
 /* ---------- footer ---------- */
 .site-footer { background: #222421; color: #f5f3ed; }
@@ -5156,7 +5325,7 @@ main { display: block; }
 }
 
 .collection-page--charcoal {
-  --collection-page-accent: var(--ink);
+  --collection-page-accent: var(--soft-ink);
   --collection-page-wash: #e7e4dc;
 }
 
@@ -5330,5 +5499,198 @@ main { display: block; }
 
   .collection-page__shop-all .button {
     width: 100%;
+  }
+}
+.collection-page__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.collection-page__tabs button {
+  appearance: none;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.collection-page__tabs button:hover {
+  transform: translateY(-2px);
+}
+
+.collection-page__tabs button.is-active {
+  background: currentColor;
+}
+
+.collection-page__tabs button.is-active {
+  background: var(--terracotta);
+  color: var(--cream);
+}
+
+@media (max-width: 700px) {
+  .collection-page__tabs {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .collection-page__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-page__tabs button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .collection-page__hero {
+    padding: 42px 22px 54px;
+  }
+
+  .collection-page__hero h1 {
+    font-size: clamp(3rem, 14vw, 4.6rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
+  }
+}
+
+.mobile-cart-fab {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobile-cart-fab {
+    display: flex;
+    position: fixed;
+    top: 1rem;
+    right: 4.25rem;
+    z-index: 999;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--charcoal);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+
+  .mobile-cart-fab span {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+
+/* ---------- MOBILE / TABLET QUICK ADD ---------- */
+/* One scroll container: the white modal itself. The backdrop stays locked. */
+@media (max-width: 900px) {
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    touch-action: none;
+  }
+
+  .quick-modal {
+    position: relative;
+    display: block;
+
+    width: min(100%, 600px);
+    max-height: calc(100dvh - 24px);
+    margin: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+
+    background: var(--paper);
+  }
+
+  .quick-modal-image {
+    width: 100%;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
+  }
+
+  .quick-modal-image img {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+
+  .quick-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+
+    padding: 24px 20px 32px;
+  }
+
+  .quick-modal-content .button-full {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
   }
 }

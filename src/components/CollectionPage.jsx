@@ -1,30 +1,141 @@
-import { ArrowLeft, ArrowUpRight, ShoppingBag, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { products } from '../data/products';
+import {
+  ArrowLeft,
+  ShoppingBag,
+  X,
+} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { collections } from './ShopSection';
+import { fetchProducts } from '../services/shopify';
 
-const ETSY_URL = 'https://www.etsy.com/shop/GlazedPotteryShop';
+function normalize(value = '') {
+  return value.toLowerCase().trim();
+}
+
+const COLLECTION_TAGS = {
+  drinkware: 'glazed-drinkware',
+  'dining-entertaining': 'glazed-dining',
+  'kitchen-bath': 'glazed-kitchen-bath',
+  'decor-raku': 'glazed-decor-raku',
+};
+
+function matchesCollection(product, collection) {
+  const requiredTag = COLLECTION_TAGS[collection.id];
+
+  if (!requiredTag) {
+    return false;
+  }
+
+  return (product.tags || []).some(
+    (tag) => normalize(tag) === requiredTag,
+  );
+}
+
+function mapShopifyProduct(product) {
+  const variant = product.variants?.nodes?.[0];
+
+  return {
+    id: variant?.id || product.id,
+    productId: product.id,
+    variantId: variant?.id,
+    handle: product.handle,
+    title: product.title,
+    description: product.description,
+    productType: product.productType,
+
+    category:
+      product.productType ||
+      product.tags?.[0] ||
+      'Handmade Pottery',
+
+    image:
+      product.featuredImage?.url ||
+      product.images?.nodes?.[0]?.url ||
+      '',
+
+    secondaryImage:
+      product.images?.nodes?.[1]?.url ||
+      product.featuredImage?.url ||
+      '',
+
+    price: variant?.price?.amount
+      ? Number(variant.price.amount).toFixed(2)
+      : '0.00',
+
+    currencyCode: variant?.price?.currencyCode || 'USD',
+
+    stock:
+      typeof variant?.quantityAvailable === 'number'
+        ? variant.quantityAvailable
+        : null,
+
+    availableForSale:
+      Boolean(product.availableForSale && variant?.availableForSale),
+
+    tags: product.tags || [],
+
+    raku: product.tags?.some((tag) =>
+      normalize(tag).includes('raku'),
+    ),
+  };
+}
 
 function ProductCard({ product, onQuickAdd }) {
   return (
-    <article className={`product-card ${product.raku ? 'raku-card' : ''}`}>
+    <article
+      className={`product-card ${product.raku ? 'raku-card' : ''}`}
+    >
       <button
         className="product-image-wrap"
         type="button"
         onClick={() => onQuickAdd(product)}
         aria-label={`View ${product.title}`}
       >
-        <img className="product-image product-image-primary" src={product.image} alt={product.title} />
-        <img className="product-image product-image-secondary" src={product.secondaryImage} alt="" aria-hidden="true" />
-        {product.raku && <span className="smoke" aria-hidden="true"><i /><i /><i /></span>}
-        {product.stock === 1 && <span className="stock-note">ONLY 1 LEFT</span>}
-        <span className="quick-add-hover"><ShoppingBag size={15} /> QUICK ADD</span>
+        {product.image && (
+          <img
+            className="product-image product-image-primary"
+            src={product.image}
+            alt={product.title}
+          />
+        )}
+
+        {product.secondaryImage && (
+          <img
+            className="product-image product-image-secondary"
+            src={product.secondaryImage}
+            alt=""
+            aria-hidden="true"
+          />
+        )}
+
+        {product.raku && (
+          <span className="smoke" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+        )}
+
+        {product.stock === 1 && (
+          <span className="stock-note">ONLY 1 LEFT</span>
+        )}
+
+        {!product.availableForSale && (
+          <span className="stock-note">SOLD OUT</span>
+        )}
+
+        {product.availableForSale && (
+          <span className="quick-add-hover">
+            <ShoppingBag size={15} /> QUICK ADD
+          </span>
+        )}
       </button>
+
       <div className="product-meta">
         <div>
           <p>{product.category}</p>
           <h3>{product.title}</h3>
         </div>
+
         <span>${product.price}</span>
       </div>
     </article>
@@ -34,8 +145,21 @@ function ProductCard({ product, onQuickAdd }) {
 function QuickAddModal({ product, onClose, onAdd }) {
   if (!product) return null;
 
+  const availabilityText =
+    product.stock === 1
+      ? 'Only 1 available'
+      : typeof product.stock === 'number'
+        ? `${product.stock} available`
+        : product.availableForSale
+          ? 'Available'
+          : 'Sold out';
+
   return (
-    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+    <div
+      className="modal-backdrop"
+      role="presentation"
+      onMouseDown={onClose}
+    >
       <div
         className="quick-modal"
         role="dialog"
@@ -43,85 +167,235 @@ function QuickAddModal({ product, onClose, onAdd }) {
         aria-label={`Add ${product.title}`}
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <button className="modal-close" type="button" onClick={onClose} aria-label="Close">
+        <button
+          className="modal-close"
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+        >
           <X size={20} />
         </button>
-        <div className="quick-modal-image"><img src={product.image} alt={product.title} /></div>
+
+        <div className="quick-modal-image">
+          {product.image && (
+            <img src={product.image} alt={product.title} />
+          )}
+        </div>
+
         <div className="quick-modal-content">
           <p className="eyebrow">{product.category}</p>
+
           <h3>{product.title}</h3>
+
           <div className="price-row">
             <strong>${product.price}</strong>
-            <span>{product.stock === 1 ? 'Only 1 available' : `${product.stock} available`}</span>
+            <span>{availabilityText}</span>
           </div>
+
           <p>{product.description}</p>
-          <button className="button button-accent button-full" type="button" onClick={() => onAdd(product)}>
-            <ShoppingBag size={17} /> ADD TO CART
+
+          <button
+            className="button button-accent button-full"
+            type="button"
+            disabled={!product.availableForSale}
+            onClick={() => onAdd(product)}
+          >
+            <ShoppingBag size={17} />
+            {product.availableForSale
+              ? 'ADD TO CART'
+              : 'SOLD OUT'}
           </button>
-          <small>Prototype checkout. This will connect to Mandy’s Shopify inventory at launch.</small>
         </div>
       </div>
     </div>
   );
 }
 
-export default function CollectionPage({ collectionId, onBack, onAddToCart }) {
+export default function CollectionPage({
+  collectionId,
+  onBack,
+  onOpenCollection,
+  onAddToCart,
+}) {
   const [quickProduct, setQuickProduct] = useState(null);
-  const collection = collections.find((item) => item.id === collectionId) || collections[0];
+  const [shopifyProducts, setShopifyProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [shopifyError, setShopifyError] = useState('');
 
-  const visibleProducts = useMemo(
-    () => products.filter((product) => collection.productCategories.includes(product.category)),
-    [collection],
-  );
+  const isAll = collectionId === 'all';
+
+  const collection = isAll
+    ? {
+        id: 'all',
+        label: 'View All',
+        title: 'Shop All Pottery',
+        description:
+          'Explore all of the handmade pieces currently available from Glazed Pottery.',
+        theme: 'terracotta',
+      }
+    : collections.find((item) => item.id === collectionId) ||
+      collections[0];
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        setShopifyError('');
+
+        const products = await fetchProducts();
+
+        if (!cancelled) {
+          setShopifyProducts(
+            (products || []).map(mapShopifyProduct),
+          );
+        }
+      } catch (error) {
+        console.error(error);
+
+        if (!cancelled) {
+          setShopifyError(
+            'We could not load the shop right now.',
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProducts();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const visibleProducts = useMemo(() => {
+    if (isAll) {
+      return shopifyProducts;
+    }
+
+    return shopifyProducts.filter((product) =>
+      matchesCollection(product, collection),
+    );
+  }, [shopifyProducts, collection, isAll]);
 
   const handleAdd = (product) => {
     onAddToCart(product);
     setQuickProduct(null);
   };
 
+  const switchCollection = (id) => {
+    setQuickProduct(null);
+    onOpenCollection(id);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <section className={`collection-page collection-page--${collection.theme}`}>
+    <section
+      className={`collection-page collection-page--${collection.theme}`}
+    >
       <div className="collection-page__hero">
-        <button className="collection-page__back" type="button" onClick={onBack}>
+        <button
+          className="collection-page__back"
+          type="button"
+          onClick={onBack}
+        >
           <ArrowLeft size={16} /> BACK TO GLAZED
         </button>
 
-        <p className="eyebrow">SHOP THE COLLECTION</p>
+        <p className="eyebrow">
+          {isAll ? 'THE FULL COLLECTION' : 'SHOP THE COLLECTION'}
+        </p>
+
         <h1>{collection.title}</h1>
+
         <p>{collection.description}</p>
+
+        <nav
+          className="collection-page__tabs"
+          aria-label="Shop pottery collections"
+        >
+          <button
+            type="button"
+            className={isAll ? 'is-active' : ''}
+            onClick={() => switchCollection('all')}
+          >
+            VIEW ALL
+          </button>
+
+          {collections.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={
+                !isAll && collection.id === item.id
+                  ? 'is-active'
+                  : ''
+              }
+              onClick={() => switchCollection(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
       </div>
 
       <div className="collection-page__body">
         <div className="collection-page__results-head">
-          <span>{visibleProducts.length ? `${visibleProducts.length} PREVIEW ITEM${visibleProducts.length === 1 ? '' : 'S'}` : 'COLLECTION PREVIEW'}</span>
-          <span>FULL INVENTORY WILL SYNC FROM SHOPIFY</span>
+          <span>
+            {loading
+              ? 'LOADING PIECES...'
+              : `${visibleProducts.length} PIECE${
+                  visibleProducts.length === 1 ? '' : 'S'
+                }`}
+          </span>
+
+          <span>HANDMADE BY GLAZED POTTERY</span>
         </div>
 
-        {visibleProducts.length ? (
+        {loading ? (
+          <div className="empty-category">
+            <h3>Loading the kiln...</h3>
+            <p>Gathering the latest pieces from the studio.</p>
+          </div>
+        ) : shopifyError ? (
+          <div className="empty-category">
+            <h3>We hit a little snag.</h3>
+            <p>{shopifyError}</p>
+          </div>
+        ) : visibleProducts.length ? (
           <div className="collection-page__grid product-grid">
             {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} onQuickAdd={setQuickProduct} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                onQuickAdd={setQuickProduct}
+              />
             ))}
           </div>
         ) : (
           <div className="empty-category">
-            <h3>More pieces are coming from Shopify.</h3>
-            <p>Once Mandy approves collaborator access, this collection can pull directly from her existing Shopify catalog.</p>
+            <h3>No pieces are listed here just yet.</h3>
+            <p>
+              Check back soon for fresh work from the studio.
+            </p>
           </div>
         )}
-
-        <div className="collection-page__shop-all">
-          <div>
-            <p className="eyebrow">WANT TO SEE EVERYTHING?</p>
-            <h2>Shop all {collection.label.toLowerCase()}.</h2>
-          </div>
-          <a className="button button-dark" href={ETSY_URL} target="_blank" rel="noreferrer">
-            SHOP ALL {collection.label.toUpperCase()} <ArrowUpRight size={16} />
-          </a>
-        </div>
       </div>
 
-      <QuickAddModal product={quickProduct} onClose={() => setQuickProduct(null)} onAdd={handleAdd} />
+      <QuickAddModal
+        product={quickProduct}
+        onClose={() => setQuickProduct(null)}
+        onAdd={handleAdd}
+      />
     </section>
   );
 }
