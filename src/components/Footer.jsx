@@ -59,9 +59,16 @@ export default function Footer({ onToast, onNavigate }) {
       </div>
 
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} GLAZED POTTERY SHOP</span>
-        <span>GYPSUM, COLORADO</span>
-      </div>
+  <span>© {new Date().getFullYear()} GLAZED POTTERY SHOP</span>
+  <span>GYPSUM, COLORADO</span>
+  <a
+    href="https://www.jessie2e.com"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    DESIGNED BY 2E STUDIO
+  </a>
+</div>
     </footer>
   );
 }

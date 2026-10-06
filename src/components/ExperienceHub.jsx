@@ -107,7 +107,7 @@ function RakuFestCallout({ onToast }) {
       </div>
 
       <div className="raku-fest-copy">
-        <p className="eyebrow">SPECIAL EVENT · TWICE A YEAR</p>
+<p className="eyebrow">SPECIAL EVENT · TWICE A YEAR</p>
         <h3>
           Raku Fest
           <span> · Spring firing event</span>
