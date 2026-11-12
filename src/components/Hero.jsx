@@ -72,7 +72,7 @@ export default function Hero() {
 </p>
         <div className="hero-actions">
           <a className="button button-light" href="#shop">SHOP CERAMICS <ArrowUpRight size={17} /></a>
-          <a className="hero-text-link" href="#experiences">CLASSES + STUDIO <ArrowDown size={16} /></a>
+          <a className="hero-text-link" href="#experiences">CLASSES COMING SOON <ArrowDown size={16} /></a>
         </div>
       </div>
 

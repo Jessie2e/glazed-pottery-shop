@@ -22,12 +22,11 @@ export default function Footer({ onToast, onNavigate }) {
       <div className="footer-newsletter" id="friends">
         <div>
           <p className="eyebrow">LET’S BE FRIENDS</p>
-          <h3>Shop updates, classes + market announcements.</h3>
+          <h3>Questions about classes or what’s next? Say hello.</h3>
         </div>
-        <form onSubmit={(event) => { event.preventDefault(); onToast('Email signup is ready to connect to Mandy’s newsletter platform.'); }}>
-          <input type="email" placeholder="EMAIL ADDRESS" aria-label="Email address" required />
-          <button type="submit">JOIN <ArrowUpRight size={16} /></button>
-        </form>
+        <a className="footer-email-link" href="mailto:glazedpotteryshop@gmail.com?subject=Hello%20Glazed%20Pottery%20Shop">
+          EMAIL MANDY <ArrowUpRight size={16} />
+        </a>
       </div>
 
       <div className="footer-main">
@@ -40,13 +39,10 @@ export default function Footer({ onToast, onNavigate }) {
           <div>
             <strong>SHOP</strong>
             <a href="#shop" onClick={(event) => handleNavigate(event, '#shop')}>Current work</a>
-            <a href="#markets" onClick={(event) => handleNavigate(event, '#markets')}>Market schedule</a>
           </div>
           <div>
             <strong>STUDIO</strong>
             <a href="#experiences" onClick={(event) => handleNavigate(event, '#experiences')}>Classes</a>
-            <a href="#experiences" onClick={(event) => handleNavigate(event, '#experiences')}>Studio time</a>
-            <a href="#membership" onClick={(event) => handleNavigate(event, '#membership')}>Membership</a>
             <a href="#studio" onClick={(event) => handleNavigate(event, '#studio')}>Behind the scenes</a>
           </div>
           <div>
@@ -55,19 +51,20 @@ export default function Footer({ onToast, onNavigate }) {
             <a href="https://www.instagram.com/glazedpottery/" target="_blank" rel="noreferrer"><InstagramIcon size={14} /> Instagram</a>
             <a href="https://www.google.com/maps/search/?api=1&query=461+Railroad+Ave+Gypsum+CO" target="_blank" rel="noreferrer"><MapPin size={14} /> 461 Railroad Ave</a>
           </div>
+          <div>
+            <strong>POLICIES</strong>
+            <a href="https://checkout.shopify.com/59836203081/policies/25466732617.html?locale=en">Shipping &amp; Processing Policy</a>
+            <a href="https://checkout.shopify.com/59836203081/policies/25466667081.html?locale=en">Privacy Policy</a>
+            <a href="https://checkout.shopify.com/59836203081/policies/25466699849.html?locale=en">Terms of Service</a>
+            <a href="https://checkout.shopify.com/59836203081/policies/25466634313.html?locale=en">Return &amp; Refund Policy</a>
+          </div>
         </div>
       </div>
 
       <div className="footer-bottom">
   <span>© {new Date().getFullYear()} GLAZED POTTERY SHOP</span>
   <span>GYPSUM, COLORADO</span>
-  <a
-    href="https://www.jessie2e.com"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    DESIGNED BY 2E STUDIO
-  </a>
+  <span>Designed by 2e Studio</span>
 </div>
     </footer>
   );

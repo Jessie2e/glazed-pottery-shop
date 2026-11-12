@@ -192,6 +192,11 @@ function QuickAddModal({ product, onClose, onAdd }) {
             <span>{availabilityText}</span>
           </div>
 
+          <p className="made-to-order-notice">
+            Each piece is handmade to order. Please allow up to 3 weeks for
+            production before shipping; shipping transit time is additional.
+          </p>
+
           <p>{product.description}</p>
 
           <button

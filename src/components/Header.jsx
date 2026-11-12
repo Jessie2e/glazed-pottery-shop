@@ -84,8 +84,7 @@ export default function Header({ cartCount, onCartOpen, onNavigate }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const links = [
     ['Shop', '#shop'],
-    ['Classes + Studio', '#experiences'],
-    ['Market Schedule', '#markets'],
+    ['Classes', '#experiences'],
     ['Artist Bio', '#story'],
     ['Behind the Scenes', '#studio'],
   ];

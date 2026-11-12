@@ -110,7 +110,7 @@ export default function StorySection() {
             </p>
           </div>
 
-          <a className="text-link" href="#markets">
+          <a className="text-link" href="#studio">
             FIND GLAZED LOCALLY <ArrowUpRight size={16} />
           </a>
         </div>

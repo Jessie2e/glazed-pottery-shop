@@ -1,4 +1,5 @@
 import {
+  ArrowUpRight,
   CalendarDays,
   Check,
   Clock3,
@@ -64,6 +65,10 @@ const memberships = [
   Once start + end exist, the ADD TO CALENDAR button works automatically.
 */
 const marketDates = [];
+
+// Keep the original service panels available for a later launch once their
+// dates, pricing, and booking actions are connected to real systems.
+const SHOW_SERVICE_PROTOTYPES = false;
 
 function downloadCalendarEvent(event) {
   if (!event.start || !event.end) return;
@@ -562,11 +567,11 @@ export default function ExperienceHub({ onToast }) {
 
   <div className="experience-heading-copy">
     <p>
-      Take a class, reserve studio time, join the local maker community or
-      catch Glazed at a market.
+      A little more room to make, learn and create together is on the way.
+      We’ll share class details when dates are ready.
     </p>
 
-    <button
+    {SHOW_SERVICE_PROTOTYPES && <button
       className="experience-raku-note"
       onClick={() =>
         onToast(
@@ -580,11 +585,11 @@ export default function ExperienceHub({ onToast }) {
         Twice yearly · spring
       </span>
       <span>GET UPDATES →</span>
-    </button>
+    </button>}
   </div>
 </div>
 
-      <div
+      {SHOW_SERVICE_PROTOTYPES ? <><div
         className="experience-tabs"
         role="tablist"
         aria-label="Experience options"
@@ -635,6 +640,29 @@ export default function ExperienceHub({ onToast }) {
           <MarketSchedulePanel onToast={onToast} />
         )}
       </div>
+      </> : (
+        <div className="experience-content">
+          <div className="classes-coming-soon">
+            <span className="classes-coming-soon__icon" aria-hidden="true">
+              <CalendarDays size={28} strokeWidth={1.5} />
+            </span>
+            <div>
+              <p className="eyebrow">AT THE GLAZED STUDIO</p>
+              <h3>Classes coming soon.</h3>
+              <p>
+                We’re getting the next round of classes ready. Have a question
+                or want to hear what’s coming? Mandy would love to hear from you.
+              </p>
+            </div>
+            <a
+              className="button button-accent"
+              href="mailto:glazedpotteryshop@gmail.com?subject=Upcoming%20Glazed%20classes"
+            >
+              ASK MANDY ABOUT CLASSES <ArrowUpRight size={17} />
+            </a>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
