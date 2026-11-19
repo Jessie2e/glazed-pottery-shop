@@ -3,6 +3,19 @@ import { useState } from 'react';
 
 export const collections = [
   {
+    id: 'dining-entertaining',
+    label: 'Dining & Entertaining',
+    kicker: 'MADE FOR GATHERING',
+    title: 'Dining & Entertaining',
+    description:
+      'Chip + dip platters, berry bowls, plates and functional pieces made to earn their place at the table.',
+    featuredName: 'Matte Black Chip + Dip',
+    image: '/assets/chip-dip-black.jpeg',
+    imagePosition: '50% 72%',
+    theme: 'charcoal',
+    productCategories: ['Chip and dips', 'Berry bowl / colander', 'Plates'],
+  },
+  {
     id: 'drinkware',
     label: 'Drinkware',
     kicker: 'MORNING RITUALS',
@@ -15,19 +28,6 @@ export const collections = [
     imagePosition: '50% 52%',
     theme: 'terracotta',
     productCategories: ['Mugs'],
-  },
-  {
-    id: 'dining-entertaining',
-    label: 'Dining & Entertaining',
-    kicker: 'MADE FOR GATHERING',
-    title: 'Dining & Entertaining',
-    description:
-      'Chip + dip platters, berry bowls, plates and functional pieces made to earn their place at the table.',
-    featuredName: 'Matte Black Chip + Dip',
-    image: '/assets/chip-dip-black.jpeg',
-    imagePosition: '50% 72%',
-    theme: 'charcoal',
-    productCategories: ['Chip and dips', 'Berry bowl / colander', 'Plates'],
   },
   {
     id: 'kitchen-bath',
@@ -111,6 +111,7 @@ export default function ShopSection({ onOpenCollection }) {
         >
           <div className="collection-shop__image-wrap">
             <img
+              className={active.id === 'drinkware' ? 'collection-shop__drinkware-image' : undefined}
               src={active.image}
               alt={active.featuredName}
               style={{ objectPosition: active.imagePosition }}

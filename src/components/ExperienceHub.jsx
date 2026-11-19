@@ -44,27 +44,32 @@ const memberships = [
   },
 ];
 
-/*
-  MARKET DATES
-  ------------
-  Mandy has not supplied confirmed dates / location / times yet, so none are
-  invented here.
-
-  When she sends them, add them like this:
-
+/* Confirmed market dates supplied by Mandy. */
+const marketDates = [
   {
-    id: 'oct-04',
-    dateLabel: 'OCT 04',
-    title: 'Market name',
-    location: 'Market venue · Town, CO',
-    timeLabel: '10 AM — 2 PM',
-    start: '2026-10-04T10:00:00',
-    end: '2026-10-04T14:00:00',
+    id: 'vail-kris-kringle-2026',
+    dateLabel: 'DEC 10–13',
+    datesLabel: 'December 10–13, 2026',
+    title: 'Vail Kris Kringle Market',
+    location: 'Vail, Colorado',
+    timeLabel: '12:00 PM–4:00 PM daily',
+    start: '2026-12-10T12:00:00-07:00',
+    end: '2026-12-10T16:00:00-07:00',
+    repeatCount: 4,
   },
-
-  Once start + end exist, the ADD TO CALENDAR button works automatically.
-*/
-const marketDates = [];
+  {
+    id: 'vail-farmers-market',
+    dateLabel: 'JUN–OCT',
+    datesLabel: 'Every Sunday, June 13–October 3, 2027',
+    title: "Vail Farmers' Market",
+    location: 'Vail, Colorado',
+    timeLabel: '9:30 AM–3:00 PM',
+    start: '2027-06-13T09:30:00-06:00',
+    end: '2027-06-13T15:00:00-06:00',
+    repeatCount: 17,
+    repeatFrequency: 'WEEKLY',
+  },
+];
 
 // Keep the original service panels available for a later launch once their
 // dates, pricing, and booking actions are connected to real systems.
@@ -88,6 +93,7 @@ function downloadCalendarEvent(event) {
     `SUMMARY:Glazed Pottery Shop — ${event.title}`,
     `LOCATION:${event.location}`,
     'DESCRIPTION:Shop Glazed Pottery in person.',
+    ...(event.repeatCount ? [`RRULE:FREQ=${event.repeatFrequency || 'DAILY'};COUNT=${event.repeatCount}`] : []),
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');
@@ -354,6 +360,7 @@ function MarketSchedulePanel({ onToast }) {
 
               <div className="market-date-details">
                 <strong>{event.title}</strong>
+                <span>{event.datesLabel}</span>
                 <span>
                   <MapPin size={15} />
                   {event.location}
@@ -365,13 +372,15 @@ function MarketSchedulePanel({ onToast }) {
                 {event.timeLabel}
               </div>
 
-              <button
-                className="market-calendar-button"
-                onClick={() => downloadCalendarEvent(event)}
-              >
-                <CalendarDays size={16} />
-                ADD TO CALENDAR
-              </button>
+              {event.start && event.end && (
+                <button
+                  className="market-calendar-button"
+                  onClick={() => downloadCalendarEvent(event)}
+                >
+                  <CalendarDays size={16} />
+                  ADD TO CALENDAR
+                </button>
+              )}
             </article>
           ))
         ) : (
@@ -397,7 +406,7 @@ function MarketSchedulePanel({ onToast }) {
         )}
       </div>
 
-      <div className="market-tab-bottom">
+      {SHOW_SERVICE_PROTOTYPES && <div className="market-tab-bottom">
         <div>
           <span>RAKU FEST</span>
           <strong>Twice yearly · spring</strong>
@@ -417,7 +426,7 @@ function MarketSchedulePanel({ onToast }) {
         >
           GET MARKET UPDATES →
         </button>
-      </div>
+      </div>}
     </div>
   );
 }
@@ -615,12 +624,6 @@ export default function ExperienceHub({ onToast }) {
           MEMBERSHIP
         </button>
 
-        <button
-          className={tab === 'markets' ? 'is-active' : ''}
-          onClick={() => setTab('markets')}
-        >
-          MARKET SCHEDULE
-        </button>
       </div>
 
       <div className="experience-content">
@@ -636,9 +639,6 @@ export default function ExperienceHub({ onToast }) {
           <MembershipPanel onToast={onToast} />
         )}
 
-        {tab === 'markets' && (
-          <MarketSchedulePanel onToast={onToast} />
-        )}
       </div>
       </> : (
         <div className="experience-content">
@@ -663,6 +663,15 @@ export default function ExperienceHub({ onToast }) {
           </div>
         </div>
       )}
+      <div className="market-schedule" id="markets">
+        <div className="market-schedule__heading">
+          <p className="eyebrow">SHOP GLAZED IN PERSON</p>
+          <h2>Market Schedule</h2>
+        </div>
+        <div className="experience-content">
+          <MarketSchedulePanel onToast={onToast} />
+        </div>
+      </div>
     </section>
   );
 }

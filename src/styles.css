@@ -4328,6 +4328,42 @@ main { display: block; }
 
 .collection-shop__intro .eyebrow {
   margin-bottom: clamp(18px, 2vw, 28px);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+}
+
+.collection-shop__image-wrap img.collection-shop__drinkware-image {
+  transform: translateX(5%) scale(1.08);
+}
+
+.collection-shop__feature:hover .collection-shop__image-wrap img.collection-shop__drinkware-image {
+  transform: translateX(5%) scale(1.1);
+}
+
+.market-schedule {
+  max-width: var(--max);
+  margin: clamp(50px, 6vw, 82px) auto 0;
+  scroll-margin-top: calc(var(--header-h) + 18px);
+}
+
+.market-schedule__heading {
+  margin-bottom: 22px;
+}
+
+.market-schedule__heading h2 {
+  margin: 0;
+  font-size: clamp(2.5rem, 4.5vw, 4.8rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.market-schedule .experience-content {
+  margin-top: 0;
+}
+
+@media (max-width: 620px) {
+  .market-schedule { margin-top: 46px; }
+  .market-schedule__heading { margin-bottom: 18px; }
 }
 
 

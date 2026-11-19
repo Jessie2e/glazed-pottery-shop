@@ -85,6 +85,7 @@ export default function Header({ cartCount, onCartOpen, onNavigate }) {
   const links = [
     ['Shop', '#shop'],
     ['Classes', '#experiences'],
+    ['Market Schedule', '#markets'],
     ['Artist Bio', '#story'],
     ['Behind the Scenes', '#studio'],
   ];

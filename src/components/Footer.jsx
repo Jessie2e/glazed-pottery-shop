@@ -39,6 +39,7 @@ export default function Footer({ onToast, onNavigate }) {
           <div>
             <strong>SHOP</strong>
             <a href="#shop" onClick={(event) => handleNavigate(event, '#shop')}>Current work</a>
+            <a href="#markets" onClick={(event) => handleNavigate(event, '#markets')}>Market schedule</a>
           </div>
           <div>
             <strong>STUDIO</strong>
