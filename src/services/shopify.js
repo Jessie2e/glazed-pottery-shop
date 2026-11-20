@@ -110,8 +110,12 @@ const CART_FIELDS = `
 
 export async function fetchProducts(first = 40) {
   const query = `
-    query Products($first: Int!) {
-      products(first: $first) {
+    query Products($first: Int!, $after: String) {
+      products(first: $first, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           id
           handle
@@ -156,9 +160,18 @@ export async function fetchProducts(first = 40) {
     }
   `;
 
-  const data = await shopifyFetch(query, { first });
+  const products = [];
+  let after = null;
+  let hasNextPage;
 
-  return data.products.nodes;
+  do {
+    const { products: page } = await shopifyFetch(query, { first, after });
+    products.push(...page.nodes);
+    hasNextPage = page.pageInfo.hasNextPage;
+    after = page.pageInfo.endCursor;
+  } while (hasNextPage);
+
+  return products;
 }
 
 export async function createCart(variantId, quantity = 1) {
